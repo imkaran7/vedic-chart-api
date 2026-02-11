@@ -4,4 +4,3 @@ pyswisseph==2.10.3.2
 pydantic==2.8.2
 python-dateutil==2.9.0.post0
 geopy==2.4.1
-timezonefinder==6.5.2
