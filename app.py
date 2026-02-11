@@ -3,7 +3,6 @@ from pydantic import BaseModel, Field
 from datetime import datetime, timezone
 from dateutil import tz
 from geopy.geocoders import Nominatim
-from timezonefinder import TimezoneFinder
 import swisseph as swe
 
 app = FastAPI(title="Vedic Chart Engine", version="1.0.0")
@@ -12,7 +11,6 @@ app = FastAPI(title="Vedic Chart Engine", version="1.0.0")
 swe.set_sid_mode(swe.SIDM_LAHIRI, 0, 0)
 
 GEO = Nominatim(user_agent="vedic-chart-api")
-TZF = TimezoneFinder()
 
 PLANETS = {
     "Sun": swe.SUN,
@@ -52,10 +50,10 @@ def geocode_place(req: GeocodeReq):
     if not loc:
         raise HTTPException(404, "Place not found")
     lat, lon = float(loc.latitude), float(loc.longitude)
-    tzid = TZF.timezone_at(lat=lat, lng=lon)
-    if not tzid:
-        raise HTTPException(400, "Could not determine timezone for place")
-    return GeocodeResp(lat=lat, lon=lon, tzid=tzid, normalized_place=str(loc))
+    # Timezone detection removed for compatibility.
+    # User/GPT must provide tzid (IANA) separately.
+    return GeocodeResp(lat=lat, lon=lon, tzid="UNKNOWN", normalized_place=str(loc))
+
 
 class NatalReq(BaseModel):
     date: str  # YYYY-MM-DD
