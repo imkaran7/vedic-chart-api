@@ -5,7 +5,11 @@ from dateutil import tz
 from geopy.geocoders import Nominatim
 import swisseph as swe
 
-app = FastAPI(title="Vedic Chart Engine", version="1.0.0")
+app = FastAPI(
+    title="Vedic Chart Engine",
+    version="1.0.0",
+    servers=[{"url": "https://vedic-chart-api-ncha.onrender.com"}]
+)
 
 # Lahiri sidereal
 swe.set_sid_mode(swe.SIDM_LAHIRI, 0, 0)
